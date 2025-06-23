@@ -11,6 +11,7 @@ type IVector2 interface {
 	Div(vec Vector2)
 	Normalize() (vec Vector2)
 	ToVector3() Vector2
+	Clear()
 }
 
 type Vector2 struct {
@@ -58,4 +59,9 @@ func (v Vector2) ToVector3() Vector3 {
 		Y: v.Y,
 		Z: 0,
 	}
+}
+
+func (v *Vector2) Clear() {
+	v.X = 0
+	v.Y = 0
 }
