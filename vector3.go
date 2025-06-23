@@ -11,6 +11,7 @@ type IVector3 interface {
 	Div(vec Vector3)
 	Normalize() (vec Vector3)
 	ToVector2() Vector2
+	IsZero() bool
 	Clear()
 }
 
@@ -70,4 +71,8 @@ func (v *Vector3) Clear() {
 	v.X = 0
 	v.Y = 0
 	v.Z = 0
+}
+
+func (v *Vector3) IsZero() bool {
+	return v.X == 0 && v.Y == 0 && v.Z == 0
 }
