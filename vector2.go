@@ -10,6 +10,8 @@ type IVector2 interface {
 	Mul(vec Vector2)
 	Div(vec Vector2)
 	Normalize() (vec Vector2)
+	AngleRadians() float64
+	AngleDegrees() float64
 	ToVector3() Vector2
 }
 
@@ -50,6 +52,16 @@ func (v *Vector2) Normalize() (vec Vector2) {
 	}
 
 	return vec
+}
+
+func (v Vector2) AngleRadians() float64 {
+	return math.Atan2(v.Y, v.X)
+}
+
+func (v Vector2) AngleDegrees() float64 {
+	angle := math.Atan2(v.Y, v.X) * 180 / math.Pi
+
+	return math.Mod(angle+360, 360)
 }
 
 func (v Vector2) ToVector3() Vector3 {
