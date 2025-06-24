@@ -12,9 +12,9 @@ type IVector3 interface {
 	Normalize() (vec Vector3)
 	AngleRadians() float64
 	AngleDegrees() float64
-	ToVector2() Vector2
 	IsZero() bool
 	Clear()
+	ToVector2() Vector2
 }
 
 type Vector3 struct {
@@ -72,13 +72,6 @@ func (v Vector3) AngleDegrees() float64 {
 	return math.Mod(angle+360, 360)
 }
 
-func (v Vector3) ToVector2() Vector2 {
-	return Vector2{
-		X: v.X,
-		Y: v.Y,
-	}
-}
-
 func (v *Vector3) Clear() {
 	v.X = 0
 	v.Y = 0
@@ -87,4 +80,11 @@ func (v *Vector3) Clear() {
 
 func (v *Vector3) IsZero() bool {
 	return v.X == 0 && v.Y == 0 && v.Z == 0
+}
+
+func (v Vector3) ToVector2() Vector2 {
+	return Vector2{
+		X: v.X,
+		Y: v.Y,
+	}
 }
