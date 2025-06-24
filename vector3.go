@@ -13,6 +13,8 @@ type IVector3 interface {
 	AngleRadians() float64
 	AngleDegrees() float64
 	ToVector2() Vector2
+	IsZero() bool
+	Clear()
 }
 
 type Vector3 struct {
@@ -75,4 +77,14 @@ func (v Vector3) ToVector2() Vector2 {
 		X: v.X,
 		Y: v.Y,
 	}
+}
+
+func (v *Vector3) Clear() {
+	v.X = 0
+	v.Y = 0
+	v.Z = 0
+}
+
+func (v *Vector3) IsZero() bool {
+	return v.X == 0 && v.Y == 0 && v.Z == 0
 }
