@@ -14,6 +14,7 @@ type IVector2 interface {
 	AngleDegrees() float64
 	IsZero() bool
 	Magnitude() float64
+	ClampMagnitude(maxValue float64)
 	Clear()
 	ToVector3() Vector2
 }
@@ -73,6 +74,21 @@ func (v *Vector2) IsZero() bool {
 
 func (v *Vector2) Magnitude() float64 {
 	return math.Sqrt((v.X * v.X) + (v.Y * v.Y))
+}
+
+func (v *Vector2) ClampMagnitude(maxValue float64) {
+	magnitude := v.Magnitude()
+
+	if magnitude == 0 || magnitude <= maxValue {
+		return
+	}
+
+	scale := maxValue / magnitude
+
+	v.Mul(Vector2{
+		X: scale,
+		Y: scale,
+	})
 }
 
 func (v *Vector2) Clear() {
