@@ -13,6 +13,7 @@ type IVector2 interface {
 	AngleRadians() float64
 	AngleDegrees() float64
 	IsZero() bool
+	Magnitude() float64
 	Clear()
 	ToVector3() Vector2
 }
@@ -66,13 +67,17 @@ func (v Vector2) AngleDegrees() float64 {
 	return math.Mod(angle+360, 360)
 }
 
+func (v *Vector2) IsZero() bool {
+	return v.X == 0 && v.Y == 0
+}
+
+func (v *Vector2) Magnitude() float64 {
+	return math.Sqrt((v.X * v.X) + (v.Y * v.Y))
+}
+
 func (v *Vector2) Clear() {
 	v.X = 0
 	v.Y = 0
-}
-
-func (v *Vector2) IsZero() bool {
-	return v.X == 0 && v.Y == 0
 }
 
 func (v Vector2) ToVector3() Vector3 {
