@@ -9,7 +9,7 @@ type IVector2 interface {
 	Sub(vec Vector2)
 	Mul(vec Vector2)
 	Div(vec Vector2)
-	Normalize() (vec Vector2)
+	Normalize()
 	AngleRadians() float64
 	AngleDegrees() float64
 	IsZero() bool
@@ -46,16 +46,13 @@ func (v *Vector2) Div(vec Vector2) {
 	v.Y /= vec.Y
 }
 
-func (v *Vector2) Normalize() (vec Vector2) {
-	vec = *v
+func (v *Vector2) Normalize() {
 	magnitude := math.Sqrt(v.X*v.X + v.Y*v.Y)
 
 	if magnitude != 0 {
-		vec.X /= magnitude
-		vec.Y /= magnitude
+		v.X /= magnitude
+		v.Y /= magnitude
 	}
-
-	return vec
 }
 
 func (v Vector2) AngleRadians() float64 {

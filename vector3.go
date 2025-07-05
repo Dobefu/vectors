@@ -9,7 +9,7 @@ type IVector3 interface {
 	Sub(vec Vector3)
 	Mul(vec Vector3)
 	Div(vec Vector3)
-	Normalize() (vec Vector3)
+	Normalize()
 	AngleRadians() float64
 	AngleDegrees() float64
 	IsZero() bool
@@ -51,17 +51,14 @@ func (v *Vector3) Div(vec Vector3) {
 	v.Z /= vec.Z
 }
 
-func (v *Vector3) Normalize() (vec Vector3) {
-	vec = *v
+func (v *Vector3) Normalize() {
 	magnitude := math.Sqrt(v.X*v.X + v.Y*v.Y + v.Z*v.Z)
 
 	if magnitude != 0 {
-		vec.X /= magnitude
-		vec.Y /= magnitude
-		vec.Z /= magnitude
+		v.X /= magnitude
+		v.Y /= magnitude
+		v.Z /= magnitude
 	}
-
-	return vec
 }
 
 func (v Vector3) AngleRadians() float64 {
