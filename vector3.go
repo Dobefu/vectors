@@ -9,6 +9,7 @@ type IVector3 interface {
 	Sub(vec Vector3)
 	Mul(vec Vector3)
 	Div(vec Vector3)
+	Bounce()
 	Normalize()
 	AngleRadians() float64
 	AngleDegrees() float64
@@ -49,6 +50,12 @@ func (v *Vector3) Div(vec Vector3) {
 	v.X /= vec.X
 	v.Y /= vec.Y
 	v.Z /= vec.Z
+}
+
+func (v *Vector3) Bounce() {
+	v.X = -v.X
+	v.Y = -v.Y
+	v.Z = -v.Z
 }
 
 func (v *Vector3) Normalize() {

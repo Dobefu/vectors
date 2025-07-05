@@ -9,6 +9,7 @@ type IVector2 interface {
 	Sub(vec Vector2)
 	Mul(vec Vector2)
 	Div(vec Vector2)
+	Bounce()
 	Normalize()
 	AngleRadians() float64
 	AngleDegrees() float64
@@ -44,6 +45,11 @@ func (v *Vector2) Mul(vec Vector2) {
 func (v *Vector2) Div(vec Vector2) {
 	v.X /= vec.X
 	v.Y /= vec.Y
+}
+
+func (v *Vector2) Bounce() {
+	v.X = -v.X
+	v.Y = -v.Y
 }
 
 func (v *Vector2) Normalize() {
