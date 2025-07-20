@@ -5,7 +5,6 @@ import (
 )
 
 // IVector3 is the interface for a 3D vector.
-// It defines all the operations that can be performed on a 3D vector.
 type IVector3 interface {
 	Add(vec Vector3)
 	Sub(vec Vector3)
@@ -29,11 +28,19 @@ type IVector3 interface {
 }
 
 // Vector3 represents a 3D vector with X, Y, and Z coordinates.
-// It implements the IVector3 interface and provides methods for 3D vector operations.
+// It provides methods for vector operations.
 type Vector3 struct {
-	X float64 // X coordinate of the vector.
-	Y float64 // Y coordinate of the vector.
-	Z float64 // Z coordinate of the vector.
+	X float64
+	Y float64
+	Z float64
+}
+
+func NewVector3(x, y, z float64) Vector3 {
+	return Vector3{
+		X: x,
+		Y: y,
+		Z: z,
+	}
 }
 
 // Add adds the values of another vector to this one.
@@ -50,40 +57,35 @@ func (v *Vector3) Sub(vec Vector3) {
 	v.Z -= vec.Z
 }
 
-// Mul multiplies this vector by another vector component-wise.
+// Mul multiplies this vector by another vector.
 func (v *Vector3) Mul(vec Vector3) {
 	v.X *= vec.X
 	v.Y *= vec.Y
 	v.Z *= vec.Z
 }
 
-// Div divides this vector by another vector component-wise.
-// Note: Division by zero will result in NaN or Inf values.
+// Div divides this vector by another vector.
 func (v *Vector3) Div(vec Vector3) {
 	v.X /= vec.X
 	v.Y /= vec.Y
 	v.Z /= vec.Z
 }
 
-// Scale multiplies this vector by a scalar value.
-// This is equivalent to multiplying the vector by a scalar value.
+// Scale multiplies this vector by a scale.
 func (v *Vector3) Scale(scale float64) {
 	v.X *= scale
 	v.Y *= scale
 	v.Z *= scale
 }
 
-// Bounce inverts the direction of the vector by negating all axes.
-// This is equivalent to multiplying the vector by -1.
+// Bounce inverts the direction of the vector.
 func (v *Vector3) Bounce() {
 	v.X = -v.X
 	v.Y = -v.Y
 	v.Z = -v.Z
 }
 
-// Normalize scales the vector to have a magnitude of 1 while preserving its direction.
-// If the vector is already zero, it remains unchanged.
-// A normalized vector is also called a unit vector.
+// Normalize scales the vector to have a magnitude of 1.
 func (v *Vector3) Normalize() {
 	magnitudeSquared := v.X*v.X + v.Y*v.Y + v.Z*v.Z
 
@@ -95,18 +97,13 @@ func (v *Vector3) Normalize() {
 	}
 }
 
-// AngleRadians returns the angle of the vector in radians relative to the positive X-axis.
-// The angle is measured counterclockwise from the positive X-axis.
-// Returns a value in the range [-π, π].
-// Note: This ignores the Z component and projects the vector onto the XY plane.
+// AngleRadians returns the angle in radians.
 func (v Vector3) AngleRadians() float64 {
 	return math.Atan2(v.Y, v.X)
 }
 
-// AngleDegrees returns the angle of the vector in degrees relative to the positive X-axis.
-// The angle is measured counterclockwise from the positive X-axis.
-// Returns a value in the range [0, 360).
-// Note: This ignores the Z component and projects the vector onto the XY plane.
+// AngleDegrees returns the angle of the vector in degrees.
+// This method ignores the Z axis and projects the vector onto the XY plane.
 func (v Vector3) AngleDegrees() float64 {
 	angle := math.Atan2(v.Y, v.X) * 180 / math.Pi
 
@@ -117,34 +114,31 @@ func (v Vector3) AngleDegrees() float64 {
 	return angle
 }
 
-// IsZero returns true if all axes are zero.
-// This indicates the vector has no magnitude and no direction.
+// IsZero checks if all axes are zero.
 func (v Vector3) IsZero() bool {
 	return v.X == 0 && v.Y == 0 && v.Z == 0
 }
 
-// Magnitude returns the length (magnitude) of the vector.
+// Magnitude returns the length of the vector.
 func (v Vector3) Magnitude() float64 {
 	return math.Sqrt((v.X * v.X) + (v.Y * v.Y) + (v.Z * v.Z))
 }
 
 // MagnitudeSquared returns the squared magnitude of the vector.
-// This is faster for magnitude comparisons, since it avoids the square root.
 func (v Vector3) MagnitudeSquared() float64 {
 	return (v.X * v.X) + (v.Y * v.Y) + (v.Z * v.Z)
 }
 
 // Distance returns the distance between this vector and another vector.
-// This is equivalent to the magnitude of the difference between the vectors.
 func (v Vector3) Distance(vec Vector3) float64 {
 	dx := v.X - vec.X
 	dy := v.Y - vec.Y
 	dz := v.Z - vec.Z
+
 	return math.Sqrt(dx*dx + dy*dy + dz*dz)
 }
 
 // DistanceSquared returns the squared distance between this vector and another vector.
-// This is faster for distance comparisons, since it avoids the square root.
 func (v Vector3) DistanceSquared(vec Vector3) float64 {
 	dx := v.X - vec.X
 	dy := v.Y - vec.Y
@@ -152,17 +146,13 @@ func (v Vector3) DistanceSquared(vec Vector3) float64 {
 	return dx*dx + dy*dy + dz*dz
 }
 
-// Dot returns the dot product of this vector and another vector.
-// Positive result: vectors point in similar directions.
-// Negative result: vectors point in opposite directions.
-// Zero result: vectors are perpendicular.
+// Dot returns the dot product.
+// Positive = same direction, negative = opposite, zero = perpendicular.
 func (v Vector3) Dot(vec Vector3) float64 {
 	return v.X*vec.X + v.Y*vec.Y + v.Z*vec.Z
 }
 
-// Lerp performs linear interpolation between this vector and another vector.
-// t should be between 0 and 1, which is the percentage of the progress between
-// this vector and the target vector.
+// Lerp interpolates between this vector and another vector.
 func (v *Vector3) Lerp(vec Vector3, t float64) {
 	v.X += (vec.X - v.X) * t
 	v.Y += (vec.Y - v.Y) * t
@@ -170,9 +160,6 @@ func (v *Vector3) Lerp(vec Vector3, t float64) {
 }
 
 // ClampMagnitude limits the magnitude of the vector to a maximum value.
-// If the current magnitude exceeds maxValue, the vector is scaled down proportionally.
-// If the vector is zero or already within the limit, no change is made.
-// This preserves the direction while limiting the length.
 func (v *Vector3) ClampMagnitude(maxValue float64) {
 	maxSquared := maxValue * maxValue
 	magnitudeSquared := v.MagnitudeSquared()
@@ -187,16 +174,14 @@ func (v *Vector3) ClampMagnitude(maxValue float64) {
 	v.Z *= scale
 }
 
-// Clear sets the vector to zero on all axes.
-// This is equivalent to setting all axes to 0.
+// Clear sets the vector to zero.
 func (v *Vector3) Clear() {
 	v.X = 0
 	v.Y = 0
 	v.Z = 0
 }
 
-// ToVector2 converts the 3D vector to a 2D vector by discarding the Z component.
-// This is useful when working with 2D systems that need to represent 3D vectors.
+// ToVector2 converts the 3D vector to a 2D vector.
 func (v Vector3) ToVector2() Vector2 {
 	return Vector2{
 		X: v.X,
