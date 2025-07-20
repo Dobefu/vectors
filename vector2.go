@@ -25,8 +25,6 @@ type IVector2 interface {
 // Vector2 represents a 2D vector with X and Y coordinates.
 // It implements the IVector2 interface and provides methods for vector operations.
 type Vector2 struct {
-	IVector2
-
 	X float64 // X coordinate of the vector.
 	Y float64 // Y coordinate of the vector.
 }
@@ -115,10 +113,8 @@ func (v *Vector2) ClampMagnitude(maxValue float64) {
 
 	scale := maxValue / magnitude
 
-	v.Mul(Vector2{
-		X: scale,
-		Y: scale,
-	})
+	v.X *= scale
+	v.Y *= scale
 }
 
 // Clear sets the vector to zero on all axes.

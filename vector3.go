@@ -25,8 +25,6 @@ type IVector3 interface {
 // Vector3 represents a 3D vector with X, Y, and Z coordinates.
 // It implements the IVector3 interface and provides methods for 3D vector operations.
 type Vector3 struct {
-	IVector3
-
 	X float64 // X coordinate of the vector.
 	Y float64 // Y coordinate of the vector.
 	Z float64 // Z coordinate of the vector.
@@ -123,12 +121,9 @@ func (v *Vector3) ClampMagnitude(maxValue float64) {
 	}
 
 	scale := maxValue / magnitude
-
-	v.Mul(Vector3{
-		X: scale,
-		Y: scale,
-		Z: scale,
-	})
+	v.X *= scale
+	v.Y *= scale
+	v.Z *= scale
 }
 
 // Clear sets the vector to zero on all axes.
