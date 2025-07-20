@@ -78,9 +78,10 @@ func (v *Vector2) Bounce() {
 // If the vector is already zero, it remains unchanged.
 // A normalized vector is also called a unit vector.
 func (v *Vector2) Normalize() {
-	magnitude := math.Sqrt(v.X*v.X + v.Y*v.Y)
+	magnitudeSquared := v.X*v.X + v.Y*v.Y
 
-	if magnitude != 0 {
+	if magnitudeSquared != 0 {
+		magnitude := math.Sqrt(magnitudeSquared)
 		v.X /= magnitude
 		v.Y /= magnitude
 	}
@@ -99,7 +100,11 @@ func (v Vector2) AngleRadians() float64 {
 func (v Vector2) AngleDegrees() float64 {
 	angle := math.Atan2(v.Y, v.X) * 180 / math.Pi
 
-	return math.Mod(angle+360, 360)
+	if angle < 0 {
+		angle += 360
+	}
+
+	return angle
 }
 
 // IsZero returns true if all axes are zero.
@@ -156,14 +161,14 @@ func (v *Vector2) Lerp(vec Vector2, t float64) {
 // If the vector is zero or already within the limit, no change is made.
 // This preserves the direction while limiting the length.
 func (v *Vector2) ClampMagnitude(maxValue float64) {
-	magnitude := v.Magnitude()
+	maxSquared := maxValue * maxValue
+	magnitudeSquared := v.MagnitudeSquared()
 
-	if magnitude == 0 || magnitude <= maxValue {
+	if magnitudeSquared == 0 || magnitudeSquared <= maxSquared {
 		return
 	}
 
-	scale := maxValue / magnitude
-
+	scale := maxValue / math.Sqrt(magnitudeSquared)
 	v.X *= scale
 	v.Y *= scale
 }
