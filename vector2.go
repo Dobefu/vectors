@@ -17,6 +17,7 @@ type IVector2 interface {
 	AngleDegrees() float64
 	IsZero() bool
 	Magnitude() float64
+	MagnitudeSquared() float64
 	ClampMagnitude(maxValue float64)
 	Clear()
 	ToVector3() Vector3
@@ -91,13 +92,19 @@ func (v Vector2) AngleDegrees() float64 {
 
 // IsZero returns true if all axes are zero.
 // This indicates the vector has no magnitude and no direction.
-func (v *Vector2) IsZero() bool {
+func (v Vector2) IsZero() bool {
 	return v.X == 0 && v.Y == 0
 }
 
 // Magnitude returns the length (magnitude) of the vector.
-func (v *Vector2) Magnitude() float64 {
+func (v Vector2) Magnitude() float64 {
 	return math.Sqrt((v.X * v.X) + (v.Y * v.Y))
+}
+
+// MagnitudeSquared returns the squared magnitude of the vector.
+// This is faster for magnitude comparisons, since it avoids the square root.
+func (v Vector2) MagnitudeSquared() float64 {
+	return (v.X * v.X) + (v.Y * v.Y)
 }
 
 // ClampMagnitude limits the magnitude of the vector to a maximum value.
