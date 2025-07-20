@@ -18,6 +18,8 @@ type IVector3 interface {
 	IsZero() bool
 	Magnitude() float64
 	MagnitudeSquared() float64
+	Distance(vec Vector3) float64
+	DistanceSquared(vec Vector3) float64
 	ClampMagnitude(maxValue float64)
 	Clear()
 	ToVector2() Vector2
@@ -114,6 +116,24 @@ func (v Vector3) Magnitude() float64 {
 // This is faster for magnitude comparisons, since it avoids the square root.
 func (v Vector3) MagnitudeSquared() float64 {
 	return (v.X * v.X) + (v.Y * v.Y) + (v.Z * v.Z)
+}
+
+// Distance returns the distance between this vector and another vector.
+// This is equivalent to the magnitude of the difference between the vectors.
+func (v Vector3) Distance(vec Vector3) float64 {
+	dx := v.X - vec.X
+	dy := v.Y - vec.Y
+	dz := v.Z - vec.Z
+	return math.Sqrt(dx*dx + dy*dy + dz*dz)
+}
+
+// DistanceSquared returns the squared distance between this vector and another vector.
+// This is faster for distance comparisons, since it avoids the square root.
+func (v Vector3) DistanceSquared(vec Vector3) float64 {
+	dx := v.X - vec.X
+	dy := v.Y - vec.Y
+	dz := v.Z - vec.Z
+	return dx*dx + dy*dy + dz*dz
 }
 
 // ClampMagnitude limits the magnitude of the vector to a maximum value.
