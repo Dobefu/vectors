@@ -21,6 +21,7 @@ type IVector2 interface {
 	MagnitudeSquared() float64
 	Distance(vec Vector2) float64
 	DistanceSquared(vec Vector2) float64
+	Dot(vec Vector2) float64
 	ClampMagnitude(maxValue float64)
 	Clear()
 	ToVector3() Vector3
@@ -131,6 +132,14 @@ func (v Vector2) DistanceSquared(vec Vector2) float64 {
 	dx := v.X - vec.X
 	dy := v.Y - vec.Y
 	return dx*dx + dy*dy
+}
+
+// Dot returns the dot product of this vector and another vector.
+// Positive result: vectors point in similar directions.
+// Negative result: vectors point in opposite directions.
+// Zero result: vectors are perpendicular.
+func (v Vector2) Dot(vec Vector2) float64 {
+	return v.X*vec.X + v.Y*vec.Y
 }
 
 // ClampMagnitude limits the magnitude of the vector to a maximum value.
