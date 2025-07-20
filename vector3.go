@@ -11,6 +11,7 @@ type IVector3 interface {
 	Sub(vec Vector3)
 	Mul(vec Vector3)
 	Div(vec Vector3)
+	Scale(scale float64)
 	Bounce()
 	Normalize()
 	AngleRadians() float64
@@ -60,6 +61,14 @@ func (v *Vector3) Div(vec Vector3) {
 	v.X /= vec.X
 	v.Y /= vec.Y
 	v.Z /= vec.Z
+}
+
+// Scale multiplies this vector by a scalar value.
+// This is equivalent to multiplying the vector by a scalar value.
+func (v *Vector3) Scale(scale float64) {
+	v.X *= scale
+	v.Y *= scale
+	v.Z *= scale
 }
 
 // Bounce inverts the direction of the vector by negating all axes.
