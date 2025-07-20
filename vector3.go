@@ -22,6 +22,7 @@ type IVector3 interface {
 	Distance(vec Vector3) float64
 	DistanceSquared(vec Vector3) float64
 	Dot(vec Vector3) float64
+	Lerp(vec Vector3, t float64)
 	ClampMagnitude(maxValue float64)
 	Clear()
 	ToVector2() Vector2
@@ -152,6 +153,15 @@ func (v Vector3) DistanceSquared(vec Vector3) float64 {
 // Zero result: vectors are perpendicular.
 func (v Vector3) Dot(vec Vector3) float64 {
 	return v.X*vec.X + v.Y*vec.Y + v.Z*vec.Z
+}
+
+// Lerp performs linear interpolation between this vector and another vector.
+// t should be between 0 and 1, which is the percentage of the progress between
+// this vector and the target vector.
+func (v *Vector3) Lerp(vec Vector3, t float64) {
+	v.X += (vec.X - v.X) * t
+	v.Y += (vec.Y - v.Y) * t
+	v.Z += (vec.Z - v.Z) * t
 }
 
 // ClampMagnitude limits the magnitude of the vector to a maximum value.
